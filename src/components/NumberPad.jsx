@@ -5,6 +5,7 @@ import Display from "./Display";
 function NumberPad({ clickedNumbers, onNumberPadClick }) {
   function handleClick(n) {
     const next = clickedNumbers.slice();
+    if (next[0] === 0) next.shift();
     next.push(n);
     onNumberPadClick(next);
   }

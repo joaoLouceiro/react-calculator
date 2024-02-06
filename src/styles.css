@@ -7,11 +7,19 @@
   display: flex;
 }
 
-.number-box {
+.key-box {
   border: 1px solid black;
   padding: 1rem;
   margin: 0.1rem;
   cursor: pointer;
+}
+
+.key-box:hover {
+  background-color: antiquewhite;
+}
+
+.key-box:active {
+  background-color: aquamarine;
 }
 
 .display-box {

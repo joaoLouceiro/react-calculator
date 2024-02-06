@@ -1,7 +1,11 @@
 import React from "react";
 
-function Operation() {
-  return <div>Operation</div>;
+function Operation({ value, onClickOperation }) {
+  return (
+    <div className="key-box" onClick={onClickOperation}>
+      {value}
+    </div>
+  );
 }
 
 export default Operation;

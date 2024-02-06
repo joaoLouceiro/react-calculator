@@ -2,7 +2,7 @@ import React from "react";
 
 function Number({ value, onNumberClick }) {
   return (
-    <div className="number-box" onClick={onNumberClick}>
+    <div className="key-box" onClick={onNumberClick}>
       {value}
     </div>
   );
