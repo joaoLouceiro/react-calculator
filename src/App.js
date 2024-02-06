@@ -4,47 +4,79 @@ import NumberPad from "./components/NumberPad";
 import Operation from "./components/Operation";
 
 export default function Calculator() {
+  const [display, setDisplay] = useState(0);
   const [numArr, setNumArr] = useState([0]);
-  const [operation, setOperation] = useState({
-    nArr: [],
-    func: 0,
+  const [main, setMain] = useState({
+    a: [0],
+    b: [0],
+    func: add,
   });
 
-  function handleNumberClick(num) {
-    setNumArr(num);
-  }
-
-  function handleOp(fnOperation) {
-    operation.nArr.unshift(+numArr.join(""));
-    operation.func = fnOperation;
-    setNumArr([0]);
-  }
-
-  function handleEquals() {
-    console.log(operation, typeof operation.func);
-    operation.nArr.unshift(+numArr.join(""));
-
-    if (typeof operation.func == "function") {
-      let result = operation.func(operation.nArr[0], operation.nArr[1]);
-
-      setNumArr(result);
-    }
+  function divide(num1, num2) {
+    return num1 / num2;
   }
 
   function add(num1, num2) {
     return num1 + num2;
   }
 
+  function sub(num1, num2) {
+    return num1 - num2;
+  }
+
+  function mult(num1, num2) {
+    return num1 * num2;
+  }
+
+  function handleNumberClick(num) {
+    const next = { ...main };
+    next.b = num;
+    console.log(next);
+    setDisplay(num);
+    setMain(next);
+  }
+
+  function handleOp(fnOp) {
+    const res = main.func(+main.a.join(""), +main.b.join("") || +display);
+    const next = {
+      a: [res],
+      b: [0],
+      func: fnOp,
+    };
+    console.log(next);
+    setDisplay(res);
+    setMain(next);
+  }
+
+  function handleEquals() {
+    const res = main.func(+main.a.join(""), +main.b.join(""));
+    const next = {
+      a: [0],
+      b: [0],
+      func: add,
+    };
+    console.log(next);
+    setDisplay(res);
+    setMain(next);
+  }
+
   return (
     <main className="calculator">
-      <Display value={numArr.slice(-10)} />
-      <div>
-        <NumberPad
-          clickedNumbers={numArr}
-          onNumberPadClick={handleNumberClick}
-        />
-        <Operation value={"+"} onClickOperation={() => handleOp(add)} />
-        <Operation value={"="} onClickOperation={() => handleEquals()} />
+      <Display value={display} />
+      <div style={{ display: "flex" }}>
+        <div style={{ marginRight: "0.3rem" }}>
+          <NumberPad
+            clickedNumbers={main.b}
+            onNumberPadClick={handleNumberClick}
+            handleEquals={handleEquals}
+          />
+        </div>
+        <div>
+          <Operation value={"+"} onClickOperation={() => handleOp(add)} />
+          <Operation value={"-"} onClickOperation={() => handleOp(sub)} />
+          <Operation value={"x"} onClickOperation={() => handleOp(mult)} />
+          <Operation value={"/"} onClickOperation={() => handleOp(divide)} />
+        </div>
       </div>
     </main>
   );
